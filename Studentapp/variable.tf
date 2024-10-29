@@ -19,5 +19,11 @@ variable "instance_type" {
 variable "instance_name" {
   type = string
   description = "The name of the instance"
-  default     = "ExampleInstance"
+  default     = "StudentApp"
+}
+
+variable "associate_public_ip" {
+  description = "Whether to associate a public IP address with the EC2 instance"
+  type        = bool
+  default     = true  
 }
