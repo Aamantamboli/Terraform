@@ -13,3 +13,7 @@ variable "this_aws_instance_instance_type" {
        description= "t2.micro"
 }
 
+variable "this_aws_key_name" {
+       type = string
+       description= "shrutikey"
+}
