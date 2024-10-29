@@ -1,19 +1,19 @@
-variable "aws_region" {
-    type = string
-    default = "ap-south-1"
+variable "region" {
+  description = "The AWS region to deploy the instance"
+  default     = "ap-south-1"
 }
 
-variable "this_aws_ubuntu_ami_id" {
-    type = string
-    description = "ami-0dee22c13ea7a9a67"
+variable "ami" {
+  description = "The AMI ID to use for the instance"
+  default     = "ami-0866a3c8686eaeeba"
 }
 
-variable "this_aws_instance_instance_type" {
-       type = string
-       description= "t2.micro"
+variable "instance_type" {
+  description = "The type of instance to create"
+  default     = "t2.micro"
 }
 
-variable "this_aws_key_name" {
-       type = string
-       description= "shrutikey"
+variable "instance_name" {
+  description = "The name of the instance"
+  default     = "ExampleInstance"
 }
