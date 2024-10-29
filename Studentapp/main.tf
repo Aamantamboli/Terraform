@@ -1,13 +1,12 @@
 provider "aws" {
-  region = var.aws_region  # Change this to your desired region
+  region = var.region
 }
 
-resource "aws_instance" "student" {
-  ami           = var.this_aws_ubuntu_ami_id
-  instance_type = var.this_aws_instance_instance_type
-  key_name      = var.this_aws_key_name
+resource "aws_instance" "example" {
+  ami           = var.ami
+  instance_type = var.instance_type
 
   tags = {
-    Name = "studentapp"
+    Name = var.instance_name
   }
 }
