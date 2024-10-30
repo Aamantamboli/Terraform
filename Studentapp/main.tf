@@ -20,7 +20,7 @@ resource "aws_subnet" "studentsubnet" {
   }
 }
 
-resource "aws_internet_gateway" "gw" {
+resource "aws_internet_gateway" "studentinternetgateway" {
   vpc_id = aws_vpc.studentvpc.id
 
   tags = {
