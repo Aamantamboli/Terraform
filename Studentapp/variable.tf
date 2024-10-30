@@ -21,6 +21,12 @@ variable "subnet_name" {
   type        = string 
   default     = "StudentAppSubnet"
 }
+
+variable "internet_gateway_name" {
+  description = "The internet gateway for the VPC."
+  type        = string
+  default     = "StudentInternetGateway"
+}
 variable "security_group_name" {
   description = "The security group for the instance."
   type        = string 
@@ -58,7 +64,7 @@ variable "instance_name" {
 }
 
 variable "associate_public_ip" {
-  description = "Whether to associate a public IP address with the EC2 instance"
   type        = bool
+  description = "Whether to associate a public IP address with the EC2 instance"
   default     = true  
 }
