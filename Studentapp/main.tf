@@ -58,7 +58,6 @@ resource "aws_instance" "studentapp" {
   tags = {
     Name = var.instance_name
   }
-}
 
 user_data = <<-EOF
               #!/bin/bash
