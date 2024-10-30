@@ -80,6 +80,10 @@ user_data = <<-EOF
               tar -xvf apache-tomcat-9.0.96.tar.gz
               sudo mv apache-tomcat-9.0.96 /opt/tomcat
 
+              # Set JAVA_HOME
+              export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+              export CATALINA_HOME=/opt/tomcat
+
               # Copy the built artifacts to Tomcat's webapps directory
               sudo cp /home/ubuntu/Studentapp/target/*.war /opt/tomcat/webapps/
 
