@@ -50,7 +50,7 @@ resource "aws_security_group" "studentsecuritygroup" {
   }
 }
 
-resource "aws_instance" "example" {
+resource "aws_instance" "studentapp" {
   ami           = var.ami
   instance_type = var.instance_type
   associate_public_ip_address = var.associate_public_ip
