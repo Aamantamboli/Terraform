@@ -10,6 +10,23 @@ variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
 }
 
+variable "vpc_name" {
+  description = "The VPC for the instance."
+  type        = string 
+  default     = "StudentAppVPC"
+
+}
+variable "subnet_name" {
+  description = "The subnet for the VPC."
+  type        = string 
+  default     = "StudentAppSubnet"
+}
+variable "security_group_name" {
+  description = "The security group for the instance."
+  type        = string 
+  default     = "StudentAppSecurityGroup"
+}
+
 variable "subnet_cidr_block" {
   description = "The CIDR block for the subnet."
   type        = string
@@ -19,7 +36,7 @@ variable "subnet_cidr_block" {
 variable "availability_zone" {
   description = "The availability zone for the subnet."
   type        = string
-  default     = "us-east-1a"
+  default     = "ap-south-1a"
 }
 
 variable "ami" {
