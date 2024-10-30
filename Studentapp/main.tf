@@ -59,3 +59,32 @@ resource "aws_instance" "example" {
     Name = var.instance_name
   }
 }
+
+user_data = <<-EOF
+              #!/bin/bash
+              # Update the package repository
+              sudo apt update -y
+
+              # Install Java and Maven
+              sudo apt install openjdk-11-jre-headless -y maven
+
+              # Clone the repository
+              git clone https://github.com/Aamantamboli/Studentapp.git /home/ubuntu/Studentapp
+
+              # Navigate to the project directory and build it
+              cd /home/ubuntu/Studentapp
+              mvn clean package
+
+              # Download and install Tomcat
+              cd /tmp
+              wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.96/bin/apache-tomcat-9.0.96.tar.gz
+              tar -xvf apache-tomcat-9.0.96.tar.gz
+              sudo mv apache-tomcat-9.0.96 /opt/tomcat
+
+              # Copy the built artifacts to Tomcat's webapps directory
+              sudo cp /home/ubuntu/Studentapp/target/*.war /opt/tomcat/webapps/
+
+              # Start Tomcat
+              sudo bash /opt/tomcat/bin/catalina.sh start
+              EOF
+}
