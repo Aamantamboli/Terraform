@@ -11,12 +11,20 @@ resource "aws_vpc" "studentvpc" {
 }
 
 resource "aws_subnet" "studentsubnet" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.studentvpc.id
   cidr_block        = var.subnet_cidr_block
   availability_zone = var.availability_zone
 
   tags = {
     Name = var.subnet_name
+  }
+}
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.studentvpc.id
+
+  tags = {
+    Name = var.internet_gateway_name
   }
 }
 
