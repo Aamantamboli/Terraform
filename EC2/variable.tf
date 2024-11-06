@@ -12,6 +12,6 @@ variable "this_aws_security_group" {
 
 variable "this_aws_instance" {
     type = list
-    default = ["ami-0c55b159cbfafe1f0" , "t2.micro" , "true"]
+    default = ["ami-0dee22c13ea7a9a67" , "t2.micro" , "true"]
     description = "This variable is for aws instance"
 }
