@@ -12,7 +12,7 @@ resource "aws_security_group" "example" {
     from_port   = var.this_aws_security_group[1]
     to_port     = var.this_aws_security_group[1]
     protocol    = var.this_aws_security_group[3]
-    cidr_blocks = [var.this_aws_security_group[4]]  # Allow SSH from anywhere (be cautious with this)
+    cidr_blocks = ["0.0.0.0/0"]  # Allow SSH from anywhere (be cautious with this)
   }
 
   ingress {
