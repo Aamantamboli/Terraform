@@ -1,42 +1,76 @@
 # AWS Region
 variable "aws_region" {
+  description = "The AWS region to deploy resources in"
   type        = string
   default     = "ap-south-1"
-  description = "The variable is for aws region"
 }
 
-# VPC 
-variable "this_vpc" {
-  type        = list
-  default     = ["10.0.0.0/16" , "true" , "my-vpc"]
-  description = "The variable is for the VPC"
+# VPC CIDR block
+variable "vpc_cidr_block" {
+  description = "The CIDR block for the VPC"
+  type        = string
+  default     = "10.0.0.0/16"
 }
 
-# Internet Gateway 
-variable "this_internet_gateway" {
+# VPC Name
+variable "vpc_name" {
+  description = "The name of the VPC"
+  type        = string
+  default     = "my-vpc"
+}
+
+# Internet Gateway Name
+variable "igw_name" {
+  description = "The name of the Internet Gateway"
   type        = string
   default     = "my-igw"
-  description = "The varaible is for Internte Gateway"
 }
 
-# Public Subnet 1 
-variable "this_subnet_1" {
-  type        = list
-  default     = ["10.0.1.0/24" , "ap-south-1a" , "true" , "subnet-1"]
-  description = "The variable is for the first public subnet"
+# Public Subnet 1 CIDR block
+variable "subnet_1_cidr_block" {
+  description = "The CIDR block for the first public subnet"
+  type        = string
+  default     = "10.0.1.0/24"
+}
+
+# Public Subnet 1 Availability Zone
+variable "subnet_1_az" {
+  description = "The availability zone for the first public subnet"
+  type        = string
+  default     = "ap-south-1a"
+}
+
+# Public Subnet 1 Name
+variable "subnet_1_name" {
+  description = "The name of the first public subnet"
+  type        = string
+  default     = "subnet-1"
 }
 
 # Public Subnet 2 CIDR block
-variable "this_subnet_2" {
-  type        = list
-  default     = ["10.0.2.0/24" , "ap-south-1b , "true" , "subnet-2"]
-  description = "The variable is for the second public subnet"
+variable "subnet_2_cidr_block" {
+  description = "The CIDR block for the second public subnet"
+  type        = string
+  default     = "10.0.2.0/24"
+}
+
+# Public Subnet 2 Availability Zone
+variable "subnet_2_az" {
+  description = "The availability zone for the second public subnet"
+  type        = string
+  default     = "ap-south-1b"
+}
+
+# Public Subnet 2 Name
+variable "subnet_2_name" {
+  description = "The name of the second public subnet"
+  type        = string
+  default     = "subnet-2"
 }
 
 # Route Table Name
-variable "this_route_table" {
+variable "route_table_name" {
+  description = "The name of the route table"
   type        = string
   default     = "my-route-table"
-  description = "The name of the route table"
 }
-

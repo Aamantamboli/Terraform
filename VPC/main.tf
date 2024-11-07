@@ -4,11 +4,11 @@ provider "aws" {
 
 # Create VPC
 resource "aws_vpc" "my_vpc" {
-  cidr_block = var.this_vpc[0]
-  enable_dns_support = var.this_vpc[1]
-  enable_dns_hostnames = var.this_vpc[1]
+  cidr_block = var.vpc_cidr_block
+  enable_dns_support = true
+  enable_dns_hostnames = true
   tags = {
-    Name = var.this_vpc[2]
+    Name = var.vpc_name
   }
 }
 
@@ -16,29 +16,29 @@ resource "aws_vpc" "my_vpc" {
 resource "aws_internet_gateway" "my_igw" {
   vpc_id = aws_vpc.my_vpc.id
   tags = {
-    Name = var.this_internet_gateway
+    Name = var.igw_name
   }
 }
 
 # Create Public Subnet 1
 resource "aws_subnet" "my_subnet_1" {
   vpc_id                  = aws_vpc.my_vpc.id
-  cidr_block              = var.this_subnet_1[0]
-  availability_zone       = var.this_subnet_1[1]
-  map_public_ip_on_launch = var.this_subnet_1[2]
+  cidr_block              = var.subnet_1_cidr_block
+  availability_zone       = var.subnet_1_az
+  map_public_ip_on_launch = true
   tags = {
-    Name = var.this_subnet_1[3]
+    Name = var.subnet_1_name
   }
 }
 
 # Create Public Subnet 2
 resource "aws_subnet" "my_subnet_2" {
   vpc_id                  = aws_vpc.my_vpc.id
-  cidr_block              = var.this_subnet_2[0]
-  availability_zone       = var.this_subnet_2[1]
-  map_public_ip_on_launch = var.this_subnet_2[2]
+  cidr_block              = var.subnet_2_cidr_block
+  availability_zone       = var.subnet_2_az
+  map_public_ip_on_launch = true
   tags = {
-    Name = var.this_subnet_2[3]
+    Name = var.subnet_2_name
   }
 }
 
@@ -46,7 +46,7 @@ resource "aws_subnet" "my_subnet_2" {
 resource "aws_route_table" "my_route_table" {
   vpc_id = aws_vpc.my_vpc.id
   tags = {
-    Name = var.this_route_table
+    Name = var.route_table_name
   }
 }
 
@@ -68,4 +68,3 @@ resource "aws_route_table_association" "my_route_table_assoc_2" {
   subnet_id      = aws_subnet.my_subnet_2.id
   route_table_id = aws_route_table.my_route_table.id
 }
-
