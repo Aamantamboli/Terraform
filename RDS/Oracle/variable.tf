@@ -7,7 +7,7 @@ variable "aws_profile" {
 variable "aws_region" {
   description = "AWS region for RDS instance"
   type        = string
-  default     = "ap-northeast-2"
+  default     = "ap-south-1"
 }
 
 variable "db_identifier" {
