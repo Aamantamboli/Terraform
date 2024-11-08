@@ -1,5 +1,5 @@
 resource "aws_instance" "app_server" {
-  ami           = "ami-0c55b159cbfafe1f0"  # Use the Ubuntu AMI ID for your region
+  ami           = "ami-0dee22c13ea7a9a67"  # Use the Ubuntu AMI ID for your region
   instance_type = var.instance_type
   key_name      = "mynewaaman"  # Replace with your key pair name
 
