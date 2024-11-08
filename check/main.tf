@@ -12,7 +12,7 @@ resource "aws_vpc" "studentvpc" {
   }
 }
 
-# Primary Subnet in ap-south-1a
+# Primary Subnet in ap-south-1a (Public Subnet)
 resource "aws_subnet" "studentsubnet_a" {
   vpc_id            = aws_vpc.studentvpc.id
   cidr_block        = var.subnet_cidr_block
@@ -23,7 +23,7 @@ resource "aws_subnet" "studentsubnet_a" {
   }
 }
 
-# Secondary Subnet in ap-south-1b for RDS requirements
+# Secondary Subnet in ap-south-1b (Private Subnet for RDS)
 resource "aws_subnet" "studentsubnet_b" {
   vpc_id            = aws_vpc.studentvpc.id
   cidr_block        = "10.0.2.0/24"   # Different CIDR block for second subnet
@@ -83,6 +83,27 @@ resource "aws_instance" "studentapp" {
     #!/bin/bash
     sudo apt update -y
     sudo apt install openjdk-11-jre-headless -y maven
+    # Install MariaDB client
+    sudo yum install mariadb105.x86_64 -y
+
+    # Connect to the RDS MariaDB instance and create the database and table
+    mysql -h ${aws_db_instance.studentdb.endpoint} -u ${var.db_username} -p${var.db_password} <<-MYSQL_SCRIPT
+    CREATE DATABASE IF NOT EXISTS ${var.db_name};
+    USE ${var.db_name};
+
+    CREATE TABLE IF NOT EXISTS students (
+      student_id INT NOT NULL AUTO_INCREMENT,
+      student_name VARCHAR(100) NOT NULL,
+      student_addr VARCHAR(100) NOT NULL,
+      student_age VARCHAR(3) NOT NULL,
+      student_qual VARCHAR(20) NOT NULL,
+      student_percent VARCHAR(10) NOT NULL,
+      student_year_passed VARCHAR(10) NOT NULL,
+      PRIMARY KEY (student_id)
+    );
+
+    EXIT;
+    MYSQL_SCRIPT
     git clone https://github.com/Aamantamboli/Studentapp.git /home/ubuntu/Studentapp
     cd /home/ubuntu/Studentapp
     mvn clean package
@@ -127,4 +148,49 @@ resource "aws_db_instance" "studentdb" {
   tags = {
     Name = var.db_instance_name
   }
+}
+
+# Route Table for Public Subnet
+resource "aws_route_table" "student_route_table" {
+  vpc_id = aws_vpc.studentvpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.studentinternetgateway.id
+  }
+
+  tags = {
+    Name = "StudentAppRouteTable"
+  }
+}
+
+# Associate Route Table with Public Subnet
+resource "aws_route_table_association" "student_subnet_association" {
+  subnet_id      = aws_subnet.studentsubnet_a.id
+  route_table_id = aws_route_table.student_route_table.id
+}
+
+# Modify conf/context.xml to include JDBC connection for the application
+resource "aws_instance" "studentapp_config" {
+  ami                         = var.ami
+  instance_type               = var.instance_type
+  associate_public_ip_address = var.associate_public_ip
+  key_name                    = var.key_name
+  subnet_id                   = aws_subnet.studentsubnet_a.id
+  vpc_security_group_ids      = [aws_security_group.studentsecuritygroup.id]
+
+  # Add the 'context.xml' configuration with database connection details
+  user_data = <<-EOF
+    #!/bin/bash
+    # Create context.xml configuration with database connection
+    cat <<EOT > /opt/tomcat/webapps/Studentapp/META-INF/context.xml
+    <Context>
+      <Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
+        maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+        username="${var.db_username}" password="${var.db_password}"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://${aws_db_instance.studentdb.endpoint}:3306/${var.db_name}" />
+    </Context>
+    EOT
+  EOF
 }
