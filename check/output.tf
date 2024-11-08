@@ -3,9 +3,14 @@ output "vpc_id" {
   value       = aws_vpc.studentvpc.id
 }
 
-output "subnet_id" {
-  description = "The ID of the subnet."
-  value       = aws_subnet.studentsubnet.id
+output "subnet_id_a" {
+  description = "The ID of the primary subnet in ap-south-1a."
+  value       = aws_subnet.studentsubnet_a.id
+}
+
+output "subnet_id_b" {
+  description = "The ID of the secondary subnet in ap-south-1b."
+  value       = aws_subnet.studentsubnet_b.id
 }
 
 output "internet_gateway_id" {
