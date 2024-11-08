@@ -47,7 +47,7 @@ variable "internet_gateway_name" {
 # Security Group Configuration
 variable "security_group_name" {
   type        = string 
-  description = "The name of the security group to be used by the instance."
+  description = "The name of the security group to be used by the EC2 instance."
   default     = "StudentAppSecurityGroup"
 }
 

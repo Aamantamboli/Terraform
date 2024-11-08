@@ -68,12 +68,12 @@ resource "aws_security_group" "studentsecuritygroup" {
 
 # EC2 Instance
 resource "aws_instance" "studentapp" {
-  ami                    = var.ami
-  instance_type          = var.instance_type
+  ami                         = var.ami
+  instance_type               = var.instance_type
   associate_public_ip_address = var.associate_public_ip
-  key_name               = var.key_name
-  subnet_id              = aws_subnet.studentsubnet_a.id
-  security_groups        = [aws_security_group.studentsecuritygroup.name]
+  key_name                    = var.key_name
+  subnet_id                   = aws_subnet.studentsubnet_a.id
+  vpc_security_group_ids      = [aws_security_group.studentsecuritygroup.id]
 
   tags = {
     Name = var.instance_name
@@ -113,10 +113,11 @@ resource "aws_db_subnet_group" "studentdb_subnet_group" {
 
 # RDS MariaDB Instance
 resource "aws_db_instance" "studentdb" {
-  identifier              = var.db_instance_name
+  identifier              = lower(var.db_instance_name)
   allocated_storage       = 20
   engine                  = "mariadb"
-  instance_class          = "db.t2.micro"
+  engine_version          = "10.4"                   # Compatible MariaDB version
+  instance_class          = "db.t3.micro"            # Compatible instance class
   username                = var.db_username
   password                = var.db_password
   db_subnet_group_name    = aws_db_subnet_group.studentdb_subnet_group.name
