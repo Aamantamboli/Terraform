@@ -105,5 +105,5 @@ variable "db_password" {
 variable "db_instance_name" {
   type        = string
   description = "The name tag for the RDS database instance."
-  default     = "StudentAppDBInstance"
+  default     = "studentappinstance"
 }
