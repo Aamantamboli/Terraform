@@ -1,3 +1,27 @@
+variable "db_username" {
+  type        = string
+  description = "Database username"
+}
+
+variable "db_password" {
+  type        = string
+  sensitive   = true
+  description = "Database password"
+}
+
+variable "db_name" {
+  type        = string
+  description = "Database name"
+}
+
+variable "aws_db_instance" {
+  type = object({
+    student_db = object({
+      endpoint = string
+    })
+  })
+}
+
 resource "aws_instance" "app_server" {
   ami           = "ami-0dee22c13ea7a9a67"  # Use the Ubuntu AMI ID for your region
   instance_type = var.instance_type
@@ -6,8 +30,7 @@ resource "aws_instance" "app_server" {
   user_data = <<-EOF
               #!/bin/bash
               sudo apt update -y
-              sudo apt install openjdk-11-jre-headless -y maven
-              sudo apt install mariadb-client -y
+              sudo apt install -y openjdk-11-jre-headless maven mariadb-client git
 
               # Clone the repository
               git clone https://github.com/Aamantamboli/Studentapp.git /home/ubuntu/Studentapp
@@ -22,17 +45,17 @@ resource "aws_instance" "app_server" {
               tar -xvf apache-tomcat-9.0.96.tar.gz
               sudo mv apache-tomcat-9.0.96 /opt/tomcat
 
-              # Set JAVA_HOME
+              # Set JAVA_HOME and CATALINA_HOME
               export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
               export CATALINA_HOME=/opt/tomcat
 
-              # Configure the database connection
+              # Configure the database connection in context.xml
               cat <<EOL > /opt/tomcat/conf/context.xml
               <Context>
                   <Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
                             maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-                            username="${var.db_username}" password="${var.db_password}" driverClassName="com.mysql.jdbc.Driver"
-                            url="jdbc:mysql://${aws_db_instance.student_db.endpoint}:3306/${var.db_name}"/>
+                            username="${var.db_username}" password="${var.db_password}" driverClassName="com.mysql.cj.jdbc.Driver"
+                            url="jdbc:mysql://${var.aws_db_instance.student_db.endpoint}:3306/${var.db_name}"/>
               </Context>
               EOL
 
@@ -48,7 +71,6 @@ resource "aws_instance" "app_server" {
     Name = "StudentApp-EC2"
   }
 
-  # Configure security group for EC2
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
 }
 
