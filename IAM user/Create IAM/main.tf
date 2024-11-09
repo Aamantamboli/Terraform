@@ -17,7 +17,7 @@ resource "aws_iam_policy" "s3_policy" {
       {
         Action   = "s3:*"
         Effect   = "Allow"
-        Resource = "arn:aws:s3:::your-bucket-name/*"  # Replace with your bucket name
+        Resource = "arn:aws:s3:::bucketversion/*"  # Replace with your bucket name
       }
     ]
   })
