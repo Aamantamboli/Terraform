@@ -1,37 +1,31 @@
-#Create a user
-resource "aws_iam_user" "myname" {
-  name = "myname"
-  path = "/"
-
-  tags = {
-    tag-key = "tag-value"
-  }
+provider "aws" {
+  region = "ap-south-1"  # You can change this to your desired AWS region
 }
 
-#Create a policy
-resource "aws_iam_policy" "s3_read_only_policy" {
-  name        = "S3ReadOnlyPolicy"
-  description = "Policy for read-only access to a specific S3 bucket"
-  policy      = jsonencode({
-    Version = "2012-10-17"
+resource "aws_iam_user" "example_user" {
+  name = "example_user"
+}
+
+# Define an S3 policy that grants permissions to the user
+resource "aws_iam_policy" "s3_policy" {
+  name        = "example_s3_policy"
+  description = "A policy granting access to S3"
+
+  policy = jsonencode({
+    Version   = "2012-10-17"
     Statement = [
       {
+        Action   = "s3:*"
         Effect   = "Allow"
-        Action   = [
-          "s3:ListBucket",
-          "s3:GetObject"
-        ]
-        Resource = [
-          "arn:aws:s3:::my-bucket",          # Bucket-level permissions
-          "arn:aws:s3:::my-bucket/*"        # Object-level permissions within the bucket
-        ]
+        Resource = "arn:aws:s3:::your-bucket-name/*"  # Replace with your bucket name
       }
     ]
   })
 }
 
-#Attach a policy to user
-resource "aws_iam_user_policy_attachment" "attach_s3_policy" {
-  user       = aws_iam_user.my_user.name
-  policy_arn = aws_iam_policy.s3_read_only_policy.arn
+# Attach the S3 policy to the user
+resource "aws_iam_policy_attachment" "example_policy_attachment" {
+  name       = "example_s3_policy_attachment"
+  users      = [aws_iam_user.example_user.name]
+  policy_arn = aws_iam_policy.s3_policy.arn
 }
