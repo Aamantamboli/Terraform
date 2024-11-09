@@ -38,7 +38,7 @@ resource "aws_instance" "app_server" {
 
               # Copy the built artifacts to Tomcat's webapps directory
               sudo cp /home/ubuntu/Studentapp/target/*.war /opt/tomcat/webapps/
-              sudo cp /home/ubuntu/Studentapp/target/*.jar /opt/tomcat/lib/
+              sudo cp /home/ubuntu/Studentapp/*.jar /opt/tomcat/lib/
 
               # Start Tomcat
               /opt/tomcat/bin/catalina.sh start
