@@ -24,7 +24,7 @@ variable "this_associate_public_ip" {
 }
 
 variable "this_tag" {
-    type = map 
+    type = map(string)
     description = "This variable is for aws instance tagging"
 }
 
