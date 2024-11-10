@@ -10,14 +10,7 @@ resource "aws_instance" "app_server" {
   provisioner "file" {
     source      = "create_table.sql"
     destination = "/home/ubuntu/create_table.sql"
-
-    # Connection configuration for SSH
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"                      # Default user for Ubuntu instances
-      private_key = file("/path/to/your/private/key.pem")  # Path to your SSH private key
-      host        = self.public_ip                # The public IP of the instance
-    }
+    
   }
 
   tags = {
