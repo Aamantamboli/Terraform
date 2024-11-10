@@ -32,7 +32,7 @@ resource "aws_instance" "app_server" {
                   <Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
                             maxTotal="100" maxIdle="30" maxWaitMillis="10000"
                             username="${var.db_username}" password="${var.db_password}" driverClassName="com.mysql.jdbc.Driver"
-                            url="jdbc:mysql://${aws_db_instance.student_db.endpoint}:3306/${var.db_name}"/>
+                            url="jdbc:mysql://${aws_db_instance.student_db.endpoint}/${var.db_name}"/>
               </Context>
               EOL
 
