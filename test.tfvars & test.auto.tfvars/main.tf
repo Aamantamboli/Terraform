@@ -11,7 +11,7 @@ resource "aws_instance" "example" {
   vpc_security_group_ids = [var.this_security_group]
 
   # Optional: Tagging the instance
-  tags = var.this_tag
+  tags = var.this_tag.Name1
   
   # Optional: Associate a public IP with the instance (for public access)
   associate_public_ip_address = var.this_associate_public_ip
