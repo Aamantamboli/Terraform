@@ -36,6 +36,20 @@ resource "aws_instance" "app_server" {
               </Context>
               EOL
 
+              # Create the students table in the database
+              mysql -h ${aws_db_instance.student_db.endpoint} -u ${var.db_username} -p${var.db_password} -D ${var.db_name} <<SQL
+              CREATE TABLE IF NOT EXISTS students (
+                  student_id INT NOT NULL AUTO_INCREMENT,
+                  student_name VARCHAR(100) NOT NULL,
+                  student_addr VARCHAR(100) NOT NULL,
+                  student_age VARCHAR(3) NOT NULL,
+                  student_qual VARCHAR(20) NOT NULL,
+                  student_percent VARCHAR(10) NOT NULL,
+                  student_year_passed VARCHAR(10) NOT NULL,
+                  PRIMARY KEY (student_id)
+              );
+              SQL       
+
               # Copy the built artifacts to Tomcat's webapps directory
               sudo cp /home/ubuntu/Studentapp/target/*.war /opt/tomcat/webapps/
               sudo cp /home/ubuntu/Studentapp/*.jar /opt/tomcat/lib/
