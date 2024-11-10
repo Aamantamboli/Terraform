@@ -3,7 +3,7 @@ variable this_aws_region {
     description = "This variable is for aws region"
 }
 
-variable "this__ami" {
+variable "this_ami" {
     type = string
     description = "This variable is for aws ami"
 }
