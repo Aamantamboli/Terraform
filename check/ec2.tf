@@ -41,7 +41,7 @@ resource "aws_instance" "app_server" {
               sudo cp /home/ubuntu/Studentapp/*.jar /opt/tomcat/lib/
 
               # Start Tomcat
-              /opt/tomcat/bin/catalina.sh start
+              bash /opt/tomcat/bin/catalina.sh start
               EOF
 
   tags = {
