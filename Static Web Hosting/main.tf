@@ -29,6 +29,14 @@ resource "aws_instance" "example" {
     EOF
 }  
 
+resource "aws_route53_zone" "primary" {
+  name = "devopsengineer.shop"  # Replace with your domain name
+}
+
+resource "aws_eip" "example" {
+  instance = aws_instance.example.id  # Associate the EIP with the EC2 instance
+}
+
 resource "aws_route53_record" "www" {
   zone_id = aws_route53_zone.primary.zone_id
   name    = "www.devopsengineer.shop"
