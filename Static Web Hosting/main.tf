@@ -29,10 +29,12 @@ resource "aws_instance" "example" {
     EOF
 }  
 
+# Create hosted zone
 resource "aws_route53_zone" "example" {
   name = "devopsengineer.shop"  # Replace with your domain name
 }
 
+#Create a record
 resource "aws_route53_record" "example" {
   zone_id = aws_route53_zone.example.zone_id
   name    = "www.devopsengineer.shop"
