@@ -23,25 +23,21 @@ resource "aws_instance" "example" {
     curl -O https://www.free-css.com/assets/files/free-css-templates/download/page296/oxer.zip
     sudo unzip oxer.zip
     sudo rm -rf /var/www/html/*
-    sudo mv oxer-html /var/www/html/
+    sudo mv oxer-html/* /var/www/html/
     sudo systemctl enable nginx
     sudo systemctl start nginx
     EOF
 }  
 
-resource "aws_route53_zone" "primary" {
+resource "aws_route53_zone" "example" {
   name = "devopsengineer.shop"  # Replace with your domain name
 }
 
-resource "aws_eip" "example" {
-  instance = aws_instance.example.id  # Associate the EIP with the EC2 instance
-}
-
-resource "aws_route53_record" "www" {
-  zone_id = aws_route53_zone.primary.zone_id
+resource "aws_route53_record" "example" {
+  zone_id = aws_route53_zone.example.id
   name    = "www.devopsengineer.shop"
   type    = "A"
   ttl     = 300
-  records = [aws_eip.example.public_ip]
+  records = [aws_instance.example.public_ip]
 }
 
