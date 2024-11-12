@@ -22,8 +22,8 @@ resource "aws_instance" "example" {
     sudo apt install nginx -y
     curl -O https://www.free-css.com/assets/files/free-css-templates/download/page296/oxer.zip
     sudo unzip oxer.zip
-    sudo rm -rf /usr/share/nginx/html/*
-    sudo mv oxer-html /usr/share/nginx/html
+    sudo rm -rf /var/www/html/*
+    sudo mv oxer-html /var/www/html/
     sudo systemctl enable nginx
     sudo systemctl start nginx
     EOF
