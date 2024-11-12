@@ -34,7 +34,7 @@ resource "aws_route53_zone" "example" {
 }
 
 resource "aws_route53_record" "example" {
-  zone_id = aws_route53_zone.example.id
+  zone_id = aws_route53_zone.example.zone_id
   name    = "www.devopsengineer.shop"
   type    = "A"
   ttl     = 300
