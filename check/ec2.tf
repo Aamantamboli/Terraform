@@ -18,9 +18,9 @@ resource "aws_instance" "app_server" {
 
               # Download and install Tomcat
               cd /opt
-              curl -O https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.96/bin/apache-tomcat-9.0.96.tar.gz
-              tar -xvf apache-tomcat-9.0.96.tar.gz
-              sudo mv apache-tomcat-9.0.96 /opt/tomcat
+              curl -O https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.97/bin/apache-tomcat-9.0.97.tar.gz
+              tar -xvf apache-tomcat-9.0.97.tar.gz
+              sudo mv apache-tomcat-9.0.97 /opt/tomcat
 
               # Set JAVA_HOME
               export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
