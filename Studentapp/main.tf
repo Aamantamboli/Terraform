@@ -75,8 +75,8 @@ user_data = <<-EOF
               mvn clean package
 
               # Download and install Tomcat
-              cd /tmp
-              wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.96/bin/apache-tomcat-9.0.96.tar.gz
+              cd /opt
+              curl -O https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.96/bin/apache-tomcat-9.0.96.tar.gz
               tar -xvf apache-tomcat-9.0.96.tar.gz
               sudo mv apache-tomcat-9.0.96 /opt/tomcat
 
