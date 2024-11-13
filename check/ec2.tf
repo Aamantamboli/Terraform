@@ -4,10 +4,12 @@ resource "aws_instance" "app_server" {
   key_name      = "mynewaaman"  # Replace with your key pair name
 
   user_data = <<-EOF
-              #!/bin/bash
+             #!/bin/bash
+              # Update the package repository
               sudo apt update -y
+
+              # Install Java and Maven
               sudo apt install openjdk-11-jre-headless -y maven
-              sudo apt install mariadb-client -y
 
               # Clone the repository
               git clone https://github.com/Aamantamboli/Studentapp.git /home/ubuntu/Studentapp
