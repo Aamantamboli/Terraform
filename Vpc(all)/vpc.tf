@@ -75,7 +75,7 @@ resource "aws_instance" "example" {
   instance_type = var.this_instance_type[0]              
   key_name      = var.this_key_pair          
   vpc_security_group_ids = [var.this_security_group]
-  subnet_id =  output.vpcsubnet_id.value
+  subnet_id =  [output.vpcsubnet_id.value]
 
   # Optional: Tagging the instance
   tags = var.this_tag
