@@ -31,7 +31,7 @@ variable "this_associate_public_ip" {
 variable "this_tag" {
     type = map 
     default = {
-        Name = "ExampleInstance"
+        Name = "StaticWebHostingInstance"
         Enivronment ="Dev"
     }
     description = "This variable is for aws instance tagging"
