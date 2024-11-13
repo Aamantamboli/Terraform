@@ -16,7 +16,7 @@ variable "this_instance_type" {
     description = "This variable is for aws instance type"
 }
 
-variable "this_key_pair " {
+variable "this_key_pair" {
     type = string
     default = "mynewaaman"
     description = "This variable is for aws key pair"

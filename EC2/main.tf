@@ -7,7 +7,7 @@ provider "aws" {
 resource "aws_instance" "example" {
   ami           = var.this_ami 
   instance_type = var.this_instance_type[0]              
-  key_name      = var.this_key_pair          
+  key_name      = var.this_key_pair         
   vpc_security_group_ids = [var.this_security_group]
 
   # Optional: Tagging the instance
