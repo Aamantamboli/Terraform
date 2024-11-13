@@ -26,8 +26,8 @@ resource "aws_instance" "app_server" {
               export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
               export CATALINA_HOME=/opt/tomcat
 
-              # Configure the database connection
-              cat <<EOL > /opt/tomcat/conf/context.xml
+              # Configure the database connection 
+              cat << EOL > /opt/tomcat/conf/context.xml
               <Context>
                   <Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
                             maxTotal="100" maxIdle="30" maxWaitMillis="10000"
@@ -42,7 +42,7 @@ resource "aws_instance" "app_server" {
 
               # Start Tomcat
               bash /opt/tomcat/bin/catalina.sh start
-              EOF
+            EOF 
 
   tags = {
     Name = "StudentApp-EC2"
