@@ -39,10 +39,6 @@ resource "aws_route53_record" "example" {
   name    = "www"
   type    = "A"
   ttl     = 300
-  records = [output.instance_ip]
-}
-
-output "instance_ip" {
-    value = aws_instance.example.public_ip
+  records = [aws_instance.example.public_ip]
 }
 
