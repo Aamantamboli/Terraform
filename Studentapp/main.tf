@@ -82,12 +82,12 @@ resource "aws_instance" "studentapp" {
   subnet_id                    = aws_subnet.studentsubnet.id
   vpc_security_group_ids       = [aws_security_group.studentsecuritygroup.id]  # Use vpc_security_group_ids
   key_name                     = var.this_key_name 
-  enable_dns_support = true
-  enable_dns_hostnames = true
   tags = {
     Name = var.this_instance_name
   }
-
+  enable_dns_support = true
+  enable_dns_hostnames = true
+    
   user_data = <<-EOF
               #!/bin/bash
               sudo apt update -y
