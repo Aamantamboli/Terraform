@@ -60,7 +60,7 @@ resource "aws_instance" "studentapp" {
   instance_type                = var.instance_type
   associate_public_ip_address  = var.associate_public_ip
   subnet_id                    = aws_subnet.studentsubnet.id
-  security_group_ids           = [aws_security_group.studentsecuritygroup.id]  # Use the security group ID explicitly
+  vpc_security_group_ids       = [aws_security_group.studentsecuritygroup.id]  # Use vpc_security_group_ids
 
   tags = {
     Name = var.instance_name
