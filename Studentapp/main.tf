@@ -2,7 +2,7 @@ provider "aws" {
   region = var.region
 }
 
-# VPC creation
+# Create VPC
 resource "aws_vpc" "studentvpc" {
   cidr_block = var.vpc_cidr_block
 
@@ -11,7 +11,7 @@ resource "aws_vpc" "studentvpc" {
   }
 }
 
-# Subnet creation within the VPC
+# Create Subnet in the VPC
 resource "aws_subnet" "studentsubnet" {
   vpc_id            = aws_vpc.studentvpc.id
   cidr_block        = var.subnet_cidr_block
@@ -22,7 +22,7 @@ resource "aws_subnet" "studentsubnet" {
   }
 }
 
-# Internet Gateway for public internet access
+# Create Internet Gateway for internet access
 resource "aws_internet_gateway" "studentinternetgateway" {
   vpc_id = aws_vpc.studentvpc.id
 
@@ -31,9 +31,9 @@ resource "aws_internet_gateway" "studentinternetgateway" {
   }
 }
 
-# Security Group to allow SSH and Tomcat HTTP access
+# Create Security Group within the VPC
 resource "aws_security_group" "studentsecuritygroup" {
-  vpc_id = aws_vpc.studentvpc.id  # Ensure it's in the same VPC
+  vpc_id = aws_vpc.studentvpc.id  # Ensure it is in the correct VPC
 
   ingress {
     from_port   = 22
@@ -54,13 +54,13 @@ resource "aws_security_group" "studentsecuritygroup" {
   }
 }
 
-# EC2 instance creation
+# EC2 Instance Creation
 resource "aws_instance" "studentapp" {
-  ami                    = var.ami
-  instance_type          = var.instance_type
-  associate_public_ip_address = var.associate_public_ip
-  subnet_id              = aws_subnet.studentsubnet.id
-  security_groups        = [aws_security_group.studentsecuritygroup.name]  # Associate the security group
+  ami                          = var.ami
+  instance_type                = var.instance_type
+  associate_public_ip_address  = var.associate_public_ip
+  subnet_id                    = aws_subnet.studentsubnet.id
+  security_group_ids           = [aws_security_group.studentsecuritygroup.id]  # Use the security group ID explicitly
 
   tags = {
     Name = var.instance_name
