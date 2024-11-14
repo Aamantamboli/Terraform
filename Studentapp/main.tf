@@ -31,6 +31,26 @@ resource "aws_internet_gateway" "studentinternetgateway" {
   }
 }
 
+# Create Route Table
+resource "aws_route_table" "studentapproutetable" {
+  vpc_id = aws_vpc.studentvpc.id
+
+  route {
+    cidr_block = "10.0.1.0/24"
+    gateway_id = aws_internet_gateway.studentinternetgateway.id
+  }
+
+  tags = {
+    Name = "studentapproutetable"
+  }
+}  
+
+# Associate Route Table with Subnet
+resource "aws_route_table_association" "studentsubnetassociation" {
+  subnet_id      = aws_subnet.studentsubnet.id
+  route_table_id = aws_route_table.studentapproutetable.id
+}
+
 # Create Security Group within the VPC
 resource "aws_security_group" "studentsecuritygroup" {
   vpc_id = aws_vpc.studentvpc.id  # Ensure it is in the correct VPC
