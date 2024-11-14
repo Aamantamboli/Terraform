@@ -1,24 +1,24 @@
 provider "aws" {
-  region = var.region
+  region = var.this_aws_region
 }
 
 # Create VPC
 resource "aws_vpc" "studentvpc" {
-  cidr_block = var.vpc_cidr_block
+  cidr_block = var.this_vpc_cidr_block
 
   tags = {
-    Name = var.vpc_name
+    Name = var.this_vpc_name
   }
 }
 
 # Create Subnet in the VPC
 resource "aws_subnet" "studentsubnet" {
   vpc_id            = aws_vpc.studentvpc.id
-  cidr_block        = var.subnet_cidr_block
-  availability_zone = var.availability_zone
+  cidr_block        = var.this_subnet_cidr_block
+  availability_zone = var.this_availability_zone
 
   tags = {
-    Name = var.subnet_name
+    Name = var.this_subnet_name
   }
 }
 
@@ -27,7 +27,7 @@ resource "aws_internet_gateway" "studentinternetgateway" {
   vpc_id = aws_vpc.studentvpc.id
 
   tags = {
-    Name = var.internet_gateway_name
+    Name = var.this_internet_gateway_name
   }
 }
 
@@ -50,20 +50,20 @@ resource "aws_security_group" "studentsecuritygroup" {
   }
 
   tags = {
-    Name = var.security_group_name
+    Name = var.this_security_group_name
   }
 }
 
 # EC2 Instance Creation
 resource "aws_instance" "studentapp" {
-  ami                          = var.ami
-  instance_type                = var.instance_type
-  associate_public_ip_address  = var.associate_public_ip
+  ami                          = var.this_ami
+  instance_type                = var.this_instance_type
+  associate_public_ip_address  = var.this_associate_public_ip
   subnet_id                    = aws_subnet.studentsubnet.id
   vpc_security_group_ids       = [aws_security_group.studentsecuritygroup.id]  # Use vpc_security_group_ids
-
+  key_name                     = var.this_key_name 
   tags = {
-    Name = var.instance_name
+    Name = var.this_instance_name
   }
 
   user_data = <<-EOF
