@@ -6,6 +6,9 @@ provider "aws" {
 resource "aws_vpc" "studentvpc" {
   cidr_block = var.this_vpc_cidr_block
 
+  enable_dns_support = true
+  enable_dns_hostnames = true
+    
   tags = {
     Name = var.this_vpc_name
   }
@@ -85,9 +88,7 @@ resource "aws_instance" "studentapp" {
   tags = {
     Name = var.this_instance_name
   }
-  enable_dns_support = true
-  enable_dns_hostnames = true
-    
+
   user_data = <<-EOF
               #!/bin/bash
               sudo apt update -y
