@@ -5,53 +5,55 @@ provider "aws" {
 # Create VPC
 resource "aws_vpc" "studentvpc" {
   cidr_block = var.this_vpc_cidr_block
-
   enable_dns_support = true
   enable_dns_hostnames = true
-    
+  instance_tenancy = "default"
   tags = {
     Name = var.this_vpc_name
   }
 }
 
-# Create Subnet in the VPC
+# Create Public Subnet in the VPC
 resource "aws_subnet" "studentsubnet" {
   vpc_id            = aws_vpc.studentvpc.id
   cidr_block        = var.this_subnet_cidr_block
   availability_zone = var.this_availability_zone
-
+  map_public_ip_on_launch = true
   tags = {
     Name = var.this_subnet_name
   }
 }
 
 # Create Internet Gateway for internet access
-resource "aws_internet_gateway" "studentinternetgateway" {
+resource "aws_internet_gateway" "studentigw" {
   vpc_id = aws_vpc.studentvpc.id
-
   tags = {
     Name = var.this_internet_gateway_name
   }
 }
 
 # Create Route Table
-resource "aws_route_table" "studentapproutetable" {
+resource "aws_route_table" "studentrt" {
   vpc_id = aws_vpc.studentvpc.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.studentinternetgateway.id
-  }
-
   tags = {
-    Name = "studentapproutetable"
+    Name = "studentrt"
   }
 }  
 
+resource "aws_route" "publicroute" {
+  route_table_id = aws_route_table.studentrt.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.studentigw.id
+}
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.studentigw.id
+  }
+
 # Associate Route Table with Subnet
-resource "aws_route_table_association" "studentsubnetassociation" {
+resource "aws_route_table_association" "studentsa" {
   subnet_id      = aws_subnet.studentsubnet.id
-  route_table_id = aws_route_table.studentapproutetable.id
+  route_table_id = aws_route_table.studentrt.id
 }
 
 # Create Security Group within the VPC
@@ -61,6 +63,13 @@ resource "aws_security_group" "studentsecuritygroup" {
   ingress {
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
