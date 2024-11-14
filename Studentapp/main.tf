@@ -45,11 +45,7 @@ resource "aws_route" "publicroute" {
   destination_cidr_block = "0.0.0.0/0"
   gateway_id = aws_internet_gateway.studentigw.id
 }
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.studentigw.id
-  }
-
+ 
 # Associate Route Table with Subnet
 resource "aws_route_table_association" "studentsa" {
   subnet_id      = aws_subnet.studentsubnet.id
