@@ -25,6 +25,7 @@ variable "availability_zone" {
 variable "ami" {
   description = "AMI ID for EC2 instance"
   type        = string
+  default     = "ami-0dee22c13ea7a9a67"
 }
 
 variable "instance_type" {
@@ -36,6 +37,7 @@ variable "instance_type" {
 variable "instance_name" {
   description = "Name of the instance"
   type        = string
+  default     = "StudentApp"
 }
 
 variable "security_group_name" {
@@ -71,4 +73,5 @@ variable "associate_public_ip" {
 variable "key_name" {
   description = "Name of the SSH key pair"
   type        = string
+  default     = "mynewaaman"
 }
