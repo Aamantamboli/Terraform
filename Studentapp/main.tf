@@ -2,6 +2,7 @@ provider "aws" {
   region = var.region
 }
 
+# VPC creation
 resource "aws_vpc" "studentvpc" {
   cidr_block = var.vpc_cidr_block
 
@@ -10,6 +11,7 @@ resource "aws_vpc" "studentvpc" {
   }
 }
 
+# Subnet creation within the VPC
 resource "aws_subnet" "studentsubnet" {
   vpc_id            = aws_vpc.studentvpc.id
   cidr_block        = var.subnet_cidr_block
@@ -20,6 +22,7 @@ resource "aws_subnet" "studentsubnet" {
   }
 }
 
+# Internet Gateway for public internet access
 resource "aws_internet_gateway" "studentinternetgateway" {
   vpc_id = aws_vpc.studentvpc.id
 
@@ -28,6 +31,7 @@ resource "aws_internet_gateway" "studentinternetgateway" {
   }
 }
 
+# Security Group to allow SSH and Tomcat HTTP access
 resource "aws_security_group" "studentsecuritygroup" {
   vpc_id = aws_vpc.studentvpc.id
 
@@ -50,38 +54,43 @@ resource "aws_security_group" "studentsecuritygroup" {
   }
 }
 
+# EC2 instance creation
 resource "aws_instance" "studentapp" {
-  ami           = var.ami
-  instance_type = var.instance_type
+  ami                    = var.ami
+  instance_type          = var.instance_type
   associate_public_ip_address = var.associate_public_ip
-  vpc_id            = aws_vpc.studentvpc.id
-  subnet_id   = aws_subnet.studentsubnet.id
+  subnet_id              = aws_subnet.studentsubnet.id
+  security_groups        = [aws_security_group.studentsecuritygroup.name]  # Associate the security group
+  key_name               = var.key_name  # Optional: specify SSH key name for login
 
   tags = {
     Name = var.instance_name
   }
 
-user_data = <<-EOF
+  user_data = <<-EOF
               #!/bin/bash
               sudo apt update -y
-              sudo apt install openjdk-11-jre-headless -y maven
+              sudo apt install openjdk-11-jre-headless -y
+              sudo apt install maven -y
               sudo apt install mariadb-client -y
 
               # Clone the repository
               git clone https://github.com/Aamantamboli/Studentapp.git /home/ubuntu/Studentapp
+
               # Navigate to the project directory and build it
               cd /home/ubuntu/Studentapp
               mvn clean package
 
               # Download and install Tomcat
               cd /tmp
-              wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.97/bin/apache-tomcat-9.0.97.tar.gz  #Check for new version if doesnt work
+              wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.97/bin/apache-tomcat-9.0.97.tar.gz
               tar -xvf apache-tomcat-9.0.97.tar.gz
               sudo mv apache-tomcat-9.0.97 /opt/tomcat
 
-              # Set JAVA_HOME
-              export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-              export CATALINA_HOME=/opt/tomcat
+              # Set JAVA_HOME and CATALINA_HOME environment variables
+              echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.bashrc
+              echo "export CATALINA_HOME=/opt/tomcat" >> ~/.bashrc
+              source ~/.bashrc
 
               # Copy the built artifacts to Tomcat's webapps directory
               sudo cp /home/ubuntu/Studentapp/target/*.war /opt/tomcat/webapps/
@@ -89,5 +98,5 @@ user_data = <<-EOF
 
               # Start Tomcat
               sudo bash /opt/tomcat/bin/catalina.sh start
-              EOF
+    EOF
 }
