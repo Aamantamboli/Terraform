@@ -33,7 +33,7 @@ resource "aws_internet_gateway" "studentinternetgateway" {
 
 # Security Group to allow SSH and Tomcat HTTP access
 resource "aws_security_group" "studentsecuritygroup" {
-  vpc_id = aws_vpc.studentvpc.id
+  vpc_id = aws_vpc.studentvpc.id  # Ensure it's in the same VPC
 
   ingress {
     from_port   = 22
@@ -61,7 +61,6 @@ resource "aws_instance" "studentapp" {
   associate_public_ip_address = var.associate_public_ip
   subnet_id              = aws_subnet.studentsubnet.id
   security_groups        = [aws_security_group.studentsecuritygroup.name]  # Associate the security group
-  key_name               = var.key_name  # Optional: specify SSH key name for login
 
   tags = {
     Name = var.instance_name
