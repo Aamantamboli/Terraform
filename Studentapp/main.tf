@@ -54,6 +54,8 @@ resource "aws_instance" "studentapp" {
   ami           = var.ami
   instance_type = var.instance_type
   associate_public_ip_address = var.associate_public_ip
+  vpc_id            = aws_vpc.studentvpc.id
+  subnet_id   = aws_subnet.studentsubnet.id
 
   tags = {
     Name = var.instance_name
