@@ -36,9 +36,3 @@ variable "this_tag" {
     }
     description = "This variable is for aws instance tagging"
 }
-
-variable "this_security_group" {
-    type = string
-    default = "sg-043784a83b52774ca"
-    description = "This variable is for aws security group" 
-}
