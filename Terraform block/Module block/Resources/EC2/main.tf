@@ -3,8 +3,8 @@ resource "aws_instance" "example" {
   ami                          = var.this_ami
   instance_type                = var.this_instance_type
   associate_public_ip_address  = var.this_associate_public_ip
-  subnet_id                    = module.vpc.this_subnet_id
-  vpc_security_group_ids       = [module.vpc.this_security_group_id]  # Use vpc_security_group_ids
+  subnet_id                    = module.ec2.this_subnet_id
+  vpc_security_group_ids       = [module.ec2.this_security_group_id]  # Use vpc_security_group_ids
   key_name                     = var.this_key_name 
   tags = {
     Name = var.this_instance_name
