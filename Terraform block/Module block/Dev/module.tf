@@ -18,8 +18,8 @@ module "ec2" {
     this_ami = "ami-0dee22c13ea7a9a67"
     this_instance_type = "t2.micro"
     this_associate_public_ip = true
-    this_subnet_id = output.this_subnet_id
-    #this_security_group = output.this_security_group_id
+    this_subnet_id = module.examplevpc.this_subnet_id
+    this_security_group = output.this_security_group_id
     this_instance_name = "ExampleInstance"
     this_key_name ="mynewaaman"
 }
