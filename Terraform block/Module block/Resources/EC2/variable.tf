@@ -14,6 +14,11 @@ variable "this_associate_public_ip" {
   type        = bool
 }
 
+variable "this_subnet_id" {
+  description = "The variable is for subnet id"
+  type        = string
+}
+
 variable "this_security_group" {
   description = "The variable is for security group"
   type        = string
