@@ -1,7 +1,6 @@
 module "vpc" {
     source = "/opt/Terraform/Terraform block/Module block/Resources/VPC"
     this_vpc_cidr_block = "10.0.0.0/16"
-    this_vpc_name = "example"
     this_enable_dns_support = true
     this_enable_dns_hostnames = true
     this_vpc_name = "exmaplevpc"
