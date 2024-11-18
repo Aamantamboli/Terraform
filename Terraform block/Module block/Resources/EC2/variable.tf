@@ -13,8 +13,8 @@ variable "this_associate_public_ip" {
   type        = bool
 }
 
-variable "this_instance_name" {
-  description = "The variable is for Name of the instance"
+variable "this_security_group" {
+  description = "The variable is for security group"
   type        = string
 }
 
@@ -22,3 +22,11 @@ variable "this_key_name" {
   description = "The variable is for Name of the SSH key pair"
   type        = string
 }
+
+variable "this_instance_name" {
+  description = "The variable is for Name of the instance"
+  type        = string
+}
+
+
+
