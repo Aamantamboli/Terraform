@@ -1,3 +1,4 @@
+#Instance variable
 variable "this_ami" {
   description = "The variable is for AMI ID for EC2 instance"
   type        = string

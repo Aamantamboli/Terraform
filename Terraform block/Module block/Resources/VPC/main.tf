@@ -49,7 +49,7 @@ resource "aws_route_table_association" "examplesa" {
 }
 
 # Create Security Group within the VPC
-resource "aws_security_group" "studentsecuritygroup" {
+resource "aws_security_group" "examplesecuritygroup" {
   vpc_id = aws_vpc.examplevpc.id  # Ensure it is in the correct VPC
 
   ingress {
