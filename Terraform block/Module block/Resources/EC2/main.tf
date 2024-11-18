@@ -9,5 +9,4 @@ resource "aws_instance" "example" {
   tags = {
     Name = var.this_instance_name
   }
-   depends_on = [aws_subnet.examplesubnet, aws_security_group.security_group_id]
 }  
