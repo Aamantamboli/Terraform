@@ -3,7 +3,7 @@ module "vpc" {
     this_vpc_cidr_block = "10.0.0.0/16"
     this_enable_dns_support = true
     this_enable_dns_hostnames = true
-    this_vpc_name = "exmaplevpc"
+    this_vpc_name = "examplevpc"
     this_subnet_cidr_block = "10.0.1.0/24"
     this_availability_zone = "ap-south-1a"
     this_map_public_ip_on_launch = true
