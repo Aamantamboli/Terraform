@@ -18,7 +18,7 @@ module "ec2" {
     this_ami = "ami-0dee22c13ea7a9a67"
     this_instance_type = "t2.micro"
     this_associate_public_ip = true
-    this_security_group = output.security_group_id
+    this_security_group = module.vpc.security_group_id
     this_instance_name = "ExampleInstance"
     this_key_name ="mynewaaman"
 }
