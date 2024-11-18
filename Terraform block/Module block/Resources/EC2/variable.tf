@@ -19,7 +19,7 @@ variable "this_associate_public_ip" {
 variable "this_instance_name" {
   description = "The variable is for Name of the instance"
   type        = string
-  default     = "StudentApp"
+  default     = "ExampleInstance"
 }
 
 variable "this_key_name" {
