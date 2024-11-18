@@ -19,7 +19,7 @@ module "ec2" {
     this_instance_type = "t2.micro"
     this_associate_public_ip = true
     #this_subnet_id =  module.vpc.this_vpc_id
-    this_security_group =  module.vpc.this_security_group
+    this_security_group =  module.vpc.this_security_group_id
     this_instance_name = "ExampleInstance"
     this_key_name ="mynewaaman"
 }
