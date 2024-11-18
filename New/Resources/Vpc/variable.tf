@@ -25,7 +25,7 @@ variable "subnet_name" {
 variable "aws_az" {
   description = "Availability Zone for the webserver subnet"
   type        = string
-  default     = "us-east-1a"
+  default     = "ap-south-1a"
 }
  
 variable "igw_name" {
